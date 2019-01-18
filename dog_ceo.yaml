@@ -1,0 +1,182 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: The Dog API
+  description: A public api of dog data
+servers:
+  - url: https://dog.ceo/api
+paths:
+  /breeds/list/all:
+    get:
+      description: List all dog breeds
+      operationId: list_breeds
+      responses:
+        '200':
+          description: List of all breeds and sub-breeds
+          content:
+            application/json:
+              schema:
+                type: object
+  /breeds/image/random:
+    get:
+      description: Get a random dog image 
+      operationId: get_random_dog 
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/Image"
+  /breeds/image/random/{num}:
+    parameters:
+      - $ref: "#/components/parameters/Number"
+    get:
+      description: Get multiple random dog images
+      operationId: get_random_dogs
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/responses/Image"
+  /breed/{breed}/images:
+    parameters:
+      - $ref: "#/components/parameters/Breed"
+    get:
+      description: Get all images of a particular breed
+      operationId: list_breed_images
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/responses/Image"
+  /breed/{breed}/images/random:
+    parameters:
+      - $ref: "#/components/parameters/Breed"
+    get:
+      description: Get a random dog image for a breed
+      operationId: get_random_dog_by_breed
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/Image"
+  /breed/{breed}/images/random/{num}:
+    parameters:
+      - $ref: "#/components/parameters/Breed"
+      - $ref: "#/components/parameters/Number"
+    get:
+      description: Get multiple random dog images from a breed, e.g. hound
+      operationId: get_random_breed_dogs
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/responses/Image"
+  /breed/{breed}/list:
+    parameters:
+      - $ref: "#/components/parameters/Breed"
+    get:
+      description: Returns an array of all the sub-breeds from a breed
+      operationId: list_subbreeds
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /breed/{breed}/{subbreed}/images:
+    parameters:
+      - $ref: "#/components/parameters/Breed"
+      - $ref: "#/components/parameters/Subbreed"
+    get:
+      description: Get all images of a particular sub-breed
+      operationId: list_subbreed_images
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/responses/Image"
+  /breed/{breed}/{subbreed}/images/random:
+    parameters:
+      - $ref: "#/components/parameters/Breed"
+      - $ref: "#/components/parameters/Subbreed"
+    get:
+      description: Get a random dog image for a sub-breed
+      operationId: get_random_dog_by_subbreed
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/Image"
+  /breed/{breed}/{subbreed}/images/random/{num}:
+    parameters:
+      - $ref: "#/components/parameters/Breed"
+      - $ref: "#/components/parameters/Subbreed"
+      - $ref: "#/components/parameters/Number"
+    get:
+      description: Get multiple random dog images from a sub-breed
+      operationId: get_random_subbreed_dogs
+      responses:
+        '200':
+          description: "success"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/responses/Image"
+
+components:
+  parameters:
+    Breed:
+      name: breed
+      in: path
+      description: breed to fetch
+      required: true
+      schema:
+        type: string
+    Subbreed:
+      name: subbreed
+      in: path
+      description: subbreed to fetch
+      required: true
+      schema:
+        type: string
+    Number:
+      name: num
+      in: path
+      description: Number of dogs to return. Max number returned is 50.
+      required: true
+      schema:
+        type: integer
+  responses:
+    Image:
+      description: URL to an image of a dog
+      content:
+        application/json:
+          schema:
+            type: string
