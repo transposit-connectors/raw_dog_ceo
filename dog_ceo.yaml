@@ -1,8 +1,12 @@
 openapi: "3.0.0"
 info:
+  # Copyright 2018, 2019 Transposit Corporation. All Rights Reserved.
   version: 1.0.0
   title: The Dog API
   description: A public api of dog data
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://dog.ceo/api
 paths:
