@@ -9,6 +9,8 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://dog.ceo/api
+externalDocs:
+  url: https://dog.ceo/dog-api/documentation/
 paths:
   /breeds/list/all:
     get:
