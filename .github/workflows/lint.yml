@@ -1,0 +1,48 @@
+name: Lint
+
+on: 
+  pull_request:
+    types: [opened, synchronize]
+    branches:  
+      - main
+      - master
+      
+# Down scope as necessary via https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+permissions:
+  checks: write
+  contents: write
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+      
+      - name: generate ignore file
+        run: |
+          cat <<EOT >> .prettierignore
+          # Ignore workflows
+          .github/workflows
+          EOT
+
+      # Install your linters here
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      # ESLint and Prettier must be in `package.json`
+      - name: Install Node.js dependencies
+        run: npm install --save-dev --save-exact prettier
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          prettier: true
+          auto_fix: true
+          git_name: "iggy_lint"
+          git_email: "iggy@transposit.com"
+          commit_message: "iggy fixed your formatting with ${linter}"
